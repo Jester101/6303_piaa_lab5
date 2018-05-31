@@ -20,7 +20,6 @@ std::vector<int> PrefixF(std::string str) {
 
 
 std::vector<int> SearchSubstring(std::string string, std::string str) {
-    int strin_length = string.length();
     int str_length = str.length();
     std::vector<int> result;
     std::vector<int> prefix = PrefixF(str + "@" + string);
@@ -29,7 +28,6 @@ std::vector<int> SearchSubstring(std::string string, std::string str) {
             result.push_back(i - 2*str_length);
         }
     }
-
     if (result.empty()) {
         result.push_back(-1);
     }
@@ -44,25 +42,7 @@ int CyclicShift(std::string base_string, std::string sub_string) {
     if (base_str_length != sub_str_length)
         return -1;
 
-    std::vector<int> prefix = PrefixF(sub_string);
-
-    int base_index = 0;
-    int sub_index = 0;
-
-    while (base_index < (2 * base_str_length - 1)) {
-        if (base_string[(base_index++ % base_str_length)] == sub_string[sub_index])
-        {
-            ++sub_index;
-            if (sub_index == sub_str_length)
-                return (base_index - sub_str_length);
-        }
-        else if (sub_index != 0)
-        {
-            --base_index;
-            sub_index = prefix[sub_index - 1];
-        }
-    }
-
-return -1;
+    std::vector<int> prefix = SearchSubstring(base_string + base_string,sub_string);
+return prefix[0];
 
 }
